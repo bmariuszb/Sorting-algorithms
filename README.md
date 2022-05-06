@@ -1,7 +1,17 @@
 # Sorting Algorithms
 
 ## Open online
-[Website](https://sorting-algorithms-mb.herokuapp.com/) is hosted on Heroku.
+Click [here](https://sorting-algorithms-mb.herokuapp.com/) to open this project.\
+The website is hosted on Heroku and sometimes it may take a few seconds to open.
+
+## Download and run
+If online version isn't working you can
+ownload git and run this commands in git bash
+```
+git clone git@github.com:bmariuszb/Sorting-algorithms.git
+cd Sorting-algorithmssta
+start index.html
+```
 
 ## Overview
 First JavaScript, HTML and css project. It shows a few of the most popular sorting algorithms in a pleasing way.
