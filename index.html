@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Projekt 1</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="index.js"></script>
+</head>
+<body>
+    <svg viewBox="0 0 100 100" width="100" height="100">
+        <line x1="50" y1="0" x2="50" y2="80" stroke="greenyellow" stroke-width="5"/>
+        <style>
+            .AZ { font: italic 30px sans-serif; fill: greenyellow;}
+        </style>
+        <polygon points="50,90 30,60 70,60" style="fill:greenyellow;"/>
+        <text x="70" y="35" class="AZ">A</text>
+        <text x="70" y="65" class="AZ">Z</text>
+    </svg>
+    <header>
+        <h1>Popularne algorytmy sortujące</h1>
+    </header>
+    <ol>
+        <li>
+            <p class="sortType" onclick="bubble()">Bubble Sort</p>
+            <article id="bubbleS">
+                <h2>Zasada działania</h2>
+                <p>Algorytm opiera się na zasadzie maksimum, tj. każda liczba jest mniejsza lub równa od liczby maksymalnej. Porównując kolejno liczby, można wyznaczyć największą z nich. Następnie ciąg częściowo posortowany (mający liczbę maksymalną) można skrócić o tę liczbę i ponowić szukanie maksimum, już bez elementów odrzuconych i tak długo, aż zostanie nam jeden element. Otrzymane kolejne maksima są coraz mniejsze, przez co ciąg jest uporządkowany.</p>
+                <h2>Animacja</h2>
+                <div id="bubble">
+                    <div id="startBubble" onclick="animateBubble()">Kliknij aby rozpocząć</div>
+                    <div id="bubble5">5</div>
+                    <div id="bubble1"></div>
+                    <div id="bubble4">4</div>
+                    <div id="bubble2">2</div>
+                    <div id="bubble8">8</div>
+                </div>
+                <h2>Pseudokod</h2>
+                <pre>
+procedure bubbleSort( A : lista elementów do posortowania )
+    n = liczba_elementów(A)
+    do
+        for (i = 0; i &lt; n-1; i++) do:
+        if A[i] > A[i+1] then
+            swap(A[i], A[i+1])
+        end if
+        end for
+        n = n-1
+    while n > 1
+end procedure</pre>
+                <h2>Implementacja</h2>
+                <h3>C++</h3>
+                <pre>
+template &lt;class T>
+    void bubble_sort(T* tab, int n) {
+        bool swapped; // Czy zamieniono w ostatnim obrocie?
+        
+        do {
+            swapped = false;
+            for (int i = 0; i &lt; n - 1; ++i) {
+                if (tab[i] > tab[i + 1]) {  
+                    swap(tab[i], tab[i + 1]);
+                    swapped = true;
+                }
+            }
+        } while (swapped);
+    }</pre>
+                <h3>Python</h3>
+                <pre>
+data = [10, 3, 7, 8, 1, 6, 2, 9, 4, 5, 0]
+
+def sort(data):
+    for i in range(len(data) - 1, 0, -1):
+        for j in range(i):
+            if data[j] > data[j + 1]:
+                data[j], data[j + 1] = data[j + 1], data[j]
+
+sort(data)
+print(data)</pre>
+                <h3>JavaScript</h3>
+                <pre>
+/**
+ * Prototyp dla tablicy zamieniający kolejność dwóch indeksów tej tablicy
+ * @param x
+ * @param y
+ * @returns {Array}
+ */
+Array.prototype.swap = function (x, y) {
+    var b = this[x];
+    this[x] = this[y];
+    this[y] = b;
+    return this;
+};
+
+/**
+ * Funkcja sortowania bąbelkowego
+ * @param array
+ */
+function bubbleSort(array) {
+    var arrayLength = array.length;
+    do {
+        for (let i = 0; i &lt; arrayLength - 1; i++) {
+            if (array[i] > array[i + 1]) {
+                array.swap(i, i + 1);
+            }
+        }
+        arrayLength = arrayLength - 1;
+    }
+    while (arrayLength > 1)
+}</pre>
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/xli_FI7CuzA" title="YouTube video player" style="border:0;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </article>
+        </li>
+        <li>
+            <p class="sortType" onclick="insertion()">Insertion Sort</p>
+            <article id="insertionS">
+                <h2>Schemat działania</h2>
+                <ol>
+                    <li>Utwórz zbiór elementów posortowanych i przenieś do niego dowolny element ze zbioru nieposortowanego.</li>
+                    <li>Weź dowolny element ze zbioru nieposortowanego.</li>
+                    <li>Wyciągnięty element porównuj z kolejnymi elementami zbioru posortowanego, póki nie napotkasz elementu równego lub elementu większego (jeśli chcemy otrzymać ciąg niemalejący) lub nie znajdziemy się na początku/końcu zbioru uporządkowanego.</li>
+                    <li>Wyciągnięty element wstaw w miejsce, gdzie skończyłeś porównywać.</li>
+                    <li>Jeśli zbiór elementów nieuporządkowanych jest niepusty, wróć do punktu 2.</li>
+                </ol>
+                <h2>Animacja</h2>
+                <div id="insertion">
+                    <div id="startInsertion" onclick="animateInsertion()">Kliknij aby rozpocząć</div>
+                    <div id="insertion5">5</div>
+                    <div id="insertion1">1</div>
+                    <div id="insertion4">4</div>
+                    <div id="insertion2">2</div>
+                    <div id="insertion8">8</div>
+                </div>
+                <h2>Pseudokod</h2>
+                <pre>
+0. Insert_sort(A, n)
+1.  for i=2 to n :
+2       # Wstaw A[i] w posortowany ciąg A[1 ... i-1]
+3.      wstawiany_element = A[i]
+4.      j = i - 1
+5.      while j>0 and A[j]>wstawiany_element:
+6.          A[j + 1] = A[j]
+7.          j = j - 1
+8.      A[j + 1] = wstawiany_element</pre>
+                <h2>Implementacja</h2>
+                <h3>C++</h3>
+                <pre>
+void SortInsert::insertSort(vector&lt;int>::iterator begin, vector&lt;int>::iterator end)
+    {
+        for (vector&lt;int>::iterator i = begin + 1; i != end; ++i)
+            for(vector&lt;int>::iterator j = i; j > begin && *j &lt; *(j - 1); --j)
+                std::iter_swap((j - 1), j);
+    }</pre>
+                <h3>Python</h3>
+                <pre>
+def Insert_sort(A):
+    for i in range(1,len(A)):
+        klucz = A[i]
+        j = i - 1
+        while j>=0 and A[j]>klucz:
+            A[j + 1] = A[j]
+            j = j - 1
+        A[j + 1] = klucz</pre>
+                <h3>JavaScript</h3>
+                <pre>
+function insertionSort(array) {
+    for (var i = 1; i &lt; array.length; i++) {
+        var key = array[i];
+        var j = i - 1;
+        while (j >= 0 && array[j] > key) {
+            array[j + 1] = array[j];
+            j = j - 1;
+        }
+        j++;
+        array[j] = key;
+    }
+}</pre>
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/JU767SDMDvA" title="YouTube video player" style="border:0;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </article>
+        </li>
+        <li>
+            <p class="sortType" onclick="heap()">Heap Sort</p>
+            <article id="heapS">
+                <h2>Zasada działania</h2>
+                <p>Algorytm sortowania przez kopcowanie składa się z dwóch faz. W pierwszej sortowane elementy reorganizowane są w celu utworzenia kopca. W drugiej zaś dokonywane jest właściwe sortowanie.</p>
+                <h3>Tworzenie kopca</h3>
+                <p>Podstawową zaletą algorytmu jest to, że do stworzenia kopca wykorzystać można tę samą tablicę, w której początkowo znajdują się nieposortowane elementy. Dzięki temu uzyskuje się stałą złożoność pamięciową.
+                Początkowo do kopca należy tylko pierwszy element w tablicy. Następnie kopiec rozszerzany jest o drugą, trzecią i kolejne pozycje tablicy, przy czym przy każdym rozszerzeniu, nowy element jest przemieszczany w górę kopca, tak aby spełnione były relacje pomiędzy węzłami. Kopiec rozrasta się, aż do wyczerpania nieposortowanej części tablicy.</p>
+                <h3>Sortowanie</h3>
+                <p>Po utworzeniu kopca następuje właściwe sortowanie. Polega ono na usunięciu wierzchołka kopca, zawierającego element maksymalny (minimalny), a następnie wstawieniu w jego miejsce elementu z końca kopca i odtworzenie porządku kopcowego. W zwolnione w ten sposób miejsce, zaraz za końcem zmniejszonego kopca wstawia się usunięty element maksymalny. Operacje te powtarza się aż do wyczerpania elementów w kopcu.</p>
+                <!-- <h2>Animacja</h2>
+                <div id="heap">
+                    <div id="startHeap" onclick="animateHeap()">Kliknij aby rozpocząć</div>
+                    <div id="heap5">5</div>
+                    <div id="heap1">1</div>
+                    <div id="heap4">4</div>
+                    <div id="heap2">2</div>
+                    <div id="heap8">8</div>
+                </div> -->
+                <h2>Pseudokod</h2>
+                <pre>
+shift-down (T[1..n], i)
+k ← i
+repeat
+    j ← k
+    if 2j &lt;= n and T[2j] > T[k]
+        k ← 2j
+    if 2j+1 &lt;= n and T[2j+1] > T[k]
+        k ← 2j+1
+    swap (T[j], T[k])
+until j = k
+
+build-heap (T[1..n])
+for i ← n div 2 downto 1
+    shift-down (T, i)
+
+sort (T[1..n])
+for i ← n downto 2
+    swap (T[1], T[i])
+    shift-down (T[1..i-1], 1)</pre>
+                <h2>Implementacja</h2>
+                <h3>C++</h3>
+                <pre>
+// To heapify a subtree rooted with node i which is
+// an index in arr[]. n is size of heap
+void heapify(int arr[], int n, int i)
+{
+    int largest = i; // Initialize largest as root
+    int l = 2 * i + 1; // left = 2*i + 1
+    int r = 2 * i + 2; // right = 2*i + 2
+
+    // If left child is larger than root
+    if (l &lt; n && arr[l] > arr[largest])
+        largest = l;
+
+    // If right child is larger than largest so far
+    if (r &lt; n && arr[r] > arr[largest])
+        largest = r;
+
+    // If largest is not root
+    if (largest != i) {
+        swap(arr[i], arr[largest]);
+
+        // Recursively heapify the affected sub-tree
+        heapify(arr, n, largest);
+    }
+}
+
+// main function to do heap sort
+void heapSort(int arr[], int n)
+{
+    // Build heap (rearrange array)
+    for (int i = n / 2 - 1; i >= 0; i--)
+        heapify(arr, n, i);
+
+    // One by one extract an element from heap
+    for (int i = n - 1; i > 0; i--) {
+        // Move current root to end
+        swap(arr[0], arr[i]);
+
+        // call max heapify on the reduced heap
+        heapify(arr, i, 0);
+    }
+}</pre>
+                <h3>Python</h3>
+                <pre>
+def heapify(arr, n, i):
+    largest = i  # Initialize largest as root
+    l = 2 * i + 1     # left = 2*i + 1
+    r = 2 * i + 2     # right = 2*i + 2
+
+    # See if left child of root exists and is
+    # greater than root
+    if l &lt; n and arr[largest] &lt; arr[l]:
+        largest = l
+
+    # See if right child of root exists and is
+    # greater than root
+    if r &lt; n and arr[largest] &lt; arr[r]:
+        largest = r
+
+    # Change root, if needed
+    if largest != i:
+        arr[i], arr[largest] = arr[largest], arr[i]  # swap
+
+        # Heapify the root.
+        heapify(arr, n, largest)
+
+# The main function to sort an array of given size
+
+
+def heapSort(arr):
+    n = len(arr)
+
+    # Build a maxheap.
+    for i in range(n//2 - 1, -1, -1):
+        heapify(arr, n, i)
+
+    # One by one extract elements
+    for i in range(n-1, 0, -1):
+        arr[i], arr[0] = arr[0], arr[i]  # swap
+        heapify(arr, i, 0)</pre>
+                <h3>JavaScript</h3>
+                <pre>
+function sort( arr)
+    {
+        var n = arr.length;
+
+        // Build heap (rearrange array)
+        for (var i = Math.floor(n / 2) - 1; i >= 0; i--)
+            heapify(arr, n, i);
+
+        // One by one extract an element from heap
+        for (var i = n - 1; i > 0; i--) {
+            // Move current root to end
+            var temp = arr[0];
+            arr[0] = arr[i];
+            arr[i] = temp;
+
+            // call max heapify on the reduced heap
+            heapify(arr, i, 0);
+        }
+    }
+
+    // To heapify a subtree rooted with node i which is
+    // an index in arr[]. n is size of heap
+    function heapify(arr, n, i)
+    {
+        var largest = i; // Initialize largest as root
+        var l = 2 * i + 1; // left = 2*i + 1
+        var r = 2 * i + 2; // right = 2*i + 2
+
+        // If left child is larger than root
+        if (l &lt; n && arr[l] > arr[largest])
+            largest = l;
+
+        // If right child is larger than largest so far
+        if (r &lt; n && arr[r] > arr[largest])
+            largest = r;
+
+        // If largest is not root
+        if (largest != i) {
+            var swap = arr[i];
+            arr[i] = arr[largest];
+            arr[largest] = swap;
+
+            // Recursively heapify the affected sub-tree
+            heapify(arr, n, largest);
+        }
+    }</pre>
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/2DmK_H7IdTo" title="YouTube video player" style="border:0;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </article>
+        </li>
+        <li>
+            <p class="sortType" onclick="quick()">Quick Sort</p>
+            <article id="quickS">
+                <h2>Zasada działania</h2>
+                <p>Z tablicy wybiera się element rozdzielający, po czym tablica jest dzielona na dwa fragmenty: do początkowego przenoszone są wszystkie elementy nie większe od rozdzielającego, do końcowego wszystkie większe. Potem sortuje się osobno początkową i końcową część tablicy. Rekursja kończy się, gdy kolejny fragment uzyskany z podziału zawiera pojedynczy element, jako że jednoelementowa tablica nie wymaga sortowania.</p>
+                <!-- <h2>Animacja</h2>
+                <div id="quick">
+                    <div id="startQuick" onclick="animateQuick()">Kliknij aby rozpocząć</div>
+                    <div id="quick5">5</div>
+                    <div id="quick1">1</div>
+                    <div id="quick4">4</div>
+                    <div id="quick2">2</div>
+                    <div id="quick8">8</div>
+                </div> -->
+                <h2>Pseudokod</h2>
+                <pre>
+PROCEDURE Quicksort(tablica, l, r)
+BEGIN
+    IF l &lt; r THEN { jeśli fragment dłuższy niż 1 element }
+    BEGIN
+        i := PodzielTablice(tablica, l, r); { podziel i zapamiętaj punkt podziału }
+        Quicksort(tablica, l, i-1);         { posortuj lewą część }
+        Quicksort(tablica, i+1, r);         { posortuj prawą część }
+    END
+END
+
+{wybiera element, który ma być użyty do podziału
+    i przenosi wszystkie elementy mniejsze na lewo od
+    tego elementu, a elementy większe lub równe, na prawo
+    od wybranego elementu }
+PROCEDURE PodzielTablice(tablica, l, r)
+BEGIN
+    indeksPodzialu := WybierzPunktPodzialu(l, r); {wybierz element, który posłuży do podziału tablicy}
+    wartoscPodzialu := tablica[indeksPodzialu]; {zapamiętaj wartość elementu}
+    Zamien(tablica, indeksPodzialu, r); {przenieś element podziału na koniec tablicy, aby sam nie brał udziału w podziale}
+
+    aktualnaPozycja := l;
+    FOR i:=l TO r-1 DO {iteruj przez wszystkie elementy, jeśli element jest mniejszy niż wartość elementu podziału dodaj go do "lewej" strony}
+    BEGIN
+        IF tablica[i] &lt; wartoscPodzialu THEN
+        BEGIN
+            Zamien(tablica, i, aktualnaPozycja);
+            aktualnaPozycja := aktualnaPozycja + 1;
+        END
+    END
+    Zamien(tablica, aktualnaPozycja, r); {wstaw element podziału we właściwe miejsce}
+    return aktualnaPozycja;
+END
+
+{ podstawowa implementacja wyboru punktu podziału - wybiera element "środkowy" w tablicy }
+PROCEDURE WybierzPunktPodzialu(l, r)
+BEGIN
+    return l + (r-l) div 2;
+END
+
+{ zamienia miejscami elementy w komórkach i1, i2 }
+PROCEDURE Zamien(tablica, i1, i2)
+BEGIN
+    IF i1&lt;>i2 THEN
+    BEGIN
+    aux := tablica[i1];
+    tablica[i1] := tablica[i2];
+    tablica[i2] := aux;
+    END
+END</pre>
+                <h2>Implementacja</h2>
+                <h3>C++</h3>
+                <pre>
+void quicksort(int tab[], int left, int right){
+    int i=left;
+    int j=right;
+    int x=tab[(left+right)>>1];
+    do{
+        while(tab[i]&lt;x) i++;
+        while(tab[j]>x) j--;
+        if(i&lt;=j){                  
+            int temp=tab[i];
+            tab[i]=tab[j];
+            tab[j]=temp;
+            i++;
+            j--;
+        }
+    }while(i&lt;=j);
+    if(left&lt;j) quicksort(tab,left,j);
+    if(right>i) quicksort(tab,i,right);     
+}</pre>
+                <h3>Python</h3>
+                <pre>
+def qsort(arr, l=0, r=None):
+    if r is None: r = len(arr) - 1
+    i, j = l, r
+    pivot = arr[(l + r) / 2]
+    while i &lt;= j:
+        while arr[i] &lt; pivot: i += 1
+        while arr[j] > pivot: j -= 1
+        if i &lt;= j:
+            arr[i], arr[j] = arr[j], arr[i]
+            i += 1; j -= 1
+    if l &lt; j: qsort(arr, l, j) 
+    if r > i: qsort(arr, i, r)</pre>
+                <h3>JavaScript</h3>
+                <pre>
+function quicksort(a, lo, hi)
+{
+    var i=lo; 
+    var j=hi;       
+    var x=a[(lo+hi)/2];
+   //  partition
+   
+    do
+    {
+        while (a[i]&lt;x) i++;
+        while (a[j]>x) j--;
+         if (i&lt;=j)
+          {
+           h=a[i]; a[i]=a[j]; a[j]=h;
+           i++; j--;
+          }         
+    } while (i&lt;=j);
+            
+    //  recursion
+    if (lo&lt;j) quicksort(a, lo, j);
+    if (i&lt;hi) quicksort(a, i, hi);
+    return a;
+ }
+
+var mess = new Array(12,54,23,87,15,43,89,65,34,23,76);
+quicksort(mess, 0, 10);</pre>
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/Hoixgm4-P4M" title="YouTube video player" style="border:0;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </article>
+        </li>
+        <li>
+            <p class="sortType" onclick="merge()">Merge Sort</p>
+            <article id="mergeS">
+                <h2>Schemat działania</h2>
+                <ol>
+                    <li>Podział zestawu danych na dwie równe części.</li>
+                    <li>Zastosowanie sortowania przez scalanie dla każdej z nich oddzielnie, chyba że pozostał już tylko jeden element.</li>
+                    <li>Połączenie posortowanych podciągów w jeden posortowany ciąg.</li>
+                </ol>
+                <!-- <h2>Animacja</h2>
+                <div id="merge">
+                    <div id="startMerge" onclick="animateMerge()">Kliknij aby rozpocząć</div>
+                    <div id="merge5">5</div>
+                    <div id="merge1">1</div>
+                    <div id="merge4">4</div>
+                    <div id="merge2">2</div>
+                    <div id="merge8">8</div>
+                </div> -->
+                <h2>Pseudokod</h2>
+                <pre>
+SORT-SCAL(T, p, r):
+JEŚLI p &lt; r:
+    q → (p+r)/2
+    SORT-SCAL(T, p, q)
+    SORT-SCAL(T, q+1, r)
+    SCALANIE(T, p, q, r)</pre>
+                <h2>Implementacja</h2>
+                <h3>C++</h3>
+                <pre>
+void merge(int array[], int const left, int const mid, int const right)
+{
+    auto const subArrayOne = mid - left + 1;
+    auto const subArrayTwo = right - mid;
+
+    // Create temp arrays
+    auto *leftArray = new int[subArrayOne],
+            *rightArray = new int[subArrayTwo];
+
+    // Copy data to temp arrays leftArray[] and rightArray[]
+    for (auto i = 0; i &lt; subArrayOne; i++)
+        leftArray[i] = array[left + i];
+    for (auto j = 0; j &lt; subArrayTwo; j++)
+        rightArray[j] = array[mid + 1 + j];
+
+    auto indexOfSubArrayOne = 0, // Initial index of first sub-array
+        indexOfSubArrayTwo = 0; // Initial index of second sub-array
+    int indexOfMergedArray = left; // Initial index of merged array
+
+    // Merge the temp arrays back into array[left..right]
+    while (indexOfSubArrayOne &lt; subArrayOne && indexOfSubArrayTwo &lt; subArrayTwo) {
+        if (leftArray[indexOfSubArrayOne] &lt;= rightArray[indexOfSubArrayTwo]) {
+            array[indexOfMergedArray] = leftArray[indexOfSubArrayOne];
+            indexOfSubArrayOne++;
+        }
+        else {
+            array[indexOfMergedArray] = rightArray[indexOfSubArrayTwo];
+            indexOfSubArrayTwo++;
+        }
+        indexOfMergedArray++;
+    }
+    // Copy the remaining elements of
+    // left[], if there are any
+    while (indexOfSubArrayOne &lt; subArrayOne) {
+        array[indexOfMergedArray] = leftArray[indexOfSubArrayOne];
+        indexOfSubArrayOne++;
+        indexOfMergedArray++;
+    }
+    // Copy the remaining elements of
+    // right[], if there are any
+    while (indexOfSubArrayTwo &lt; subArrayTwo) {
+        array[indexOfMergedArray] = rightArray[indexOfSubArrayTwo];
+        indexOfSubArrayTwo++;
+        indexOfMergedArray++;
+    }
+}
+
+// begin is for left index and end is
+// right index of the sub-array
+// of arr to be sorted */
+void mergeSort(int array[], int const begin, int const end)
+{
+    if (begin >= end)
+        return; // Returns recursively
+
+    auto mid = begin + (end - begin) / 2;
+    mergeSort(array, begin, mid);
+    mergeSort(array, mid + 1, end);
+    merge(array, begin, mid, end);
+}</pre>
+                <h3>Python</h3>
+                <pre>
+def scal(n):
+    if len(n)==1:return n
+    s=int(len(n)/2)
+    a=scal(n[:s])
+    b=scal(n[s:])
+    a=a[::-1]
+    b=b[::-1]
+    i=a.pop()
+    e=b.pop()
+    c=[]
+    for x in range(len(n)):
+            if(i&lt;e):
+                c.append(i)
+                if not len(a)==0:
+                    i=a.pop()
+                else:
+                    c.append(e)
+                    for q in b:
+                            c.append(q)
+                    break	
+            else:
+                c.append(e)
+                if not len(b)==0:
+                    e=b.pop()
+                else:
+                    c.append(i)
+                    for q in a:
+                            c.append(q)
+                    break
+
+    return c</pre>
+                <h3>JavaScript</h3>
+                <pre>
+function merge(pocz, sr, kon)
+{
+  var i,j,q;
+  t = new Array();
+  for (i=pocz; i&lt;=kon; i++) t[i]=tab[i];  // Skopiowanie danych do tablicy pomocniczej
+  i=pocz; j=sr+1; q=pocz;                 // Ustawienie wskaźników tablic
+  while (i&lt;=sr && j&lt;=kon) {  // Przenoszenie danych z sortowaniem ze zbiorów pomocniczych do tablicy głównej
+        tab_iter++;
+              
+    if (t[i]&lt;t[j])
+        tab[q++]=t[i++];
+    else
+        tab[q++]=t[j++];
+  }
+  while (i&lt;=sr) tab[q++]=t[i++]; // Przeniesienie nie skopiowanych danych ze zbioru pierwszego w przypadku, gdy drugi zbiór się skończył
+}
+
+function mergesort(pocz, kon)
+{
+  var sr;
+  if (pocz&lt;kon) {
+    sr=Math.floor((pocz+kon)/2);
+    mergesort(pocz, sr);    // Dzielenie lewej części
+    mergesort(sr+1, kon);   // Dzielenie prawej części
+    merge(pocz, sr, kon);   // Łączenie części lewej i prawej
+  }
+}
+
+function onemerge(i_p, i_k)
+{
+  var i_s,i1,i2,i;
+  p = new Array();
+  i_s = Math.floor((i_p + i_k + 1) / 2);
+  if(i_s - i_p > 1) onemerge(i_p, i_s - 1);
+  if(i_k - i_s > 0) onemerge(i_s, i_k);
+  i1 = i_p; i2 = i_s;
+  for(i = i_p; i &lt;= i_k; i++)
+   {  d_iter++;
+      
+      p[i] = ((i1 == i_s) || ((i2 &lt;= i_k) && (d[i1] > d[i2]))) ? d[i2++] : d[i1++];
+   }
+
+  for(i = i_p; i &lt;= i_k; i++) d[i] = p[i];
+}
+
+tab_iter = d_iter = 0;
+source= new Array();
+for(counter = 0; counter &lt; 100; counter++) source[counter] = Math.floor(Math.random() * 100);
+tab = d = source;
+
+mergesort(0, source.length-1);
+onemerge(0,source.length-1);
+
+
+console.log(tab);
+console.log('tab iter'+tab_iter);
+console.log('##################');
+console.log(d);
+console.log('d iter'+d_iter);</pre>
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/4VqmGXwpLqc" title="YouTube video player" style="border:0;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </article>
+        </li>
+        <li>
+            <p class="sortType" onclick="selection()">Selection Sort</p>
+            <article id="selectionS">
+                <h2>Schemat działania</h2>
+                <ol>
+                    <li>wyszukaj minimalną wartość z tablicy spośród elementów od i(i rośnie od 0 do końca tablicy) do końca tablicy</li>
+                    <li>zamień wartość minimalną, z elementem na pozycji i</li>
+                </ol>
+                <!-- <h2>Animacja</h2>
+                <div id="selection">
+                    <div id="startSelection" onclick="animateSelection()">Kliknij aby rozpocząć</div>
+                    <div id="selection5">5</div>
+                    <div id="selection1">1</div>
+                    <div id="selection4">4</div>
+                    <div id="selection2">2</div>
+                    <div id="selection8">8</div>
+                </div> -->
+                <h2>Pseudokod</h2>
+                <pre>
+procedure selection sort 
+list  : array of items
+n     : size of list
+
+for i = 1 to n - 1
+/* set current element as minimum*/
+    min = i    
+
+    /* check the element to be minimum */
+
+    for j = i+1 to n 
+        if list[j] &lt; list[min] then
+            min = j;
+        end if
+    end for
+
+    /* swap the minimum element with the current element*/
+    if indexMin != i  then
+        swap list[min] and list[i]
+    end if
+end for
+    
+end procedure</pre>
+                <h2>Implementacja</h2>
+                <h3>C++</h3>
+                <pre>
+int Max_element_indeks(int n)
+{
+    int max = 0;
+    for (int i = 1; i &lt; n; i++)
+    if (t[i] > t[max])
+        max = i;
+    return max;
+}
+
+void Selection_sort(int n)
+{
+    for (int i = n; i >= 2; i--)
+    {
+        int max = Max_element_indeks(i);
+        if (max != i - 1)
+        swap(t[i - 1], t[max]);
+    }
+}</pre>
+                <h3>Python</h3>
+                <pre>
+# Python program for implementation of Selection
+# Sort
+import sys
+A = [64, 25, 12, 22, 11]
+
+# Traverse through all array elements
+for i in range(len(A)):
+    
+    # Find the minimum element in remaining 
+    # unsorted array
+    min_idx = i
+    for j in range(i+1, len(A)):
+        if A[min_idx] > A[j]:
+            min_idx = j
+            
+    # Swap the found minimum element with 
+    # the first element        
+    A[i], A[min_idx] = A[min_idx], A[i]
+
+# Driver code to test above
+print ("Sorted array")
+for i in range(len(A)):
+    print("%d" %A[i]),</pre>
+                <h3>JavaScript</h3>
+                <pre>
+/**
+* Prototyp dla tablicy zamieniający kolejność dwóch indeksów tej tablicy
+* @param x
+* @param y
+* @returns {Array}
+*/
+Array.prototype.swap = function (x, y) {
+    var b = this[x];
+    this[x] = this[y];
+    this[y] = b;
+    return this;
+};
+
+/**
+ *  Funkcja wypełniająca tablice losowymi liczbami
+ * @param array
+ */
+function fillArray(array) {
+    for (var i = 0; i &lt; 30; i++) {
+        var randomNumber = Math.floor(Math.random() * 30) + 1; // "+ 1" aby losowało z zakresu &lt;1, 30>
+        array.push(randomNumber);
+    }
+}
+
+/**
+ * Funkcja sortowania przez wybieranie
+ * @param array
+ */
+function selectionSort(array) {
+    for (var i = 0; i &lt; array.length - 1; i++) {
+        var min = i;
+        for (var j = i + 1; j &lt; array.length; j++) {
+            if (array[j] &lt; array[min]) {
+                min = j;
+            }
+        }
+        if (min !== i) {
+            array.swap(i, min);
+        }
+    }
+}</pre>
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/g-PGLbMth_g" title="YouTube video player" style="border:0;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </article>
+        </li>
+    </ol>
+    <div class="sources">
+        <p>Źródła</p>
+        <audio autoplay loop  id="playAudio">
+            <source src="music.mp3" type="audio/mp3">
+        </audio>    
+        <p>Warm Memories - Emotional Inspiring Piano by Keys of Moon |<a href="https://soundcloud.com/keysofmoon">https://soundcloud.com/keysofmoon</a> Attribution 4.0 International (CC BY 4.0) <a href="https://creativecommons.org/licenses/by/4.0/">https://creativecommons.org/licenses/by/4.0/</a> Music promoted by <a href="https://www.chosic.com/free-music/all/">https://www.chosic.com/free-music/all/</a></p>
+        <div>
+            <nav><a href="https://dev.to/koladev/8-must-know-sorting-algorithms-5ja">Algorytmy sortujące</a></nav>
+            <nav><a href="https://pl.wikipedia.org/wiki/Sortowanie_b%C4%85belkowe">Bubble Sort</a></nav>
+            <nav><a href="https://pl.wikibooks.org/wiki/Kody_%C5%BAr%C3%B3d%C5%82owe/Sortowanie_b%C4%85belkowe">Bubble Sort-code</a></nav>
+            <nav><a href="https://pl.wikipedia.org/wiki/Sortowanie_przez_wstawianie">Insertion Sort</a></nav>
+            <nav><a href="https://pl.wikibooks.org/wiki/Kody_%C5%BAr%C3%B3d%C5%82owe/Sortowanie_przez_wstawianie">Insertion Sort-code</a></nav>
+            <nav><a href="https://pl.wikipedia.org/wiki/Sortowanie_przez_kopcowanie">Heap Sort</a></nav>
+            <nav><a href="https://www.geeksforgeeks.org/heap-sort/">Heap Sort-code</a></nav>
+            <nav><a href="https://pl.wikipedia.org/wiki/Sortowanie_szybkie">Quick Sort</a></nav>
+            <nav><a href="https://pl.wikibooks.org/wiki/Kody_%C5%BAr%C3%B3d%C5%82owe/Sortowanie_szybkie">Quick Sort-code</a></nav>
+            <nav><a href="https://pl.wikipedia.org/wiki/Sortowanie_przez_scalanie">Merge Sort</a></nav>
+            <nav><a href="https://www.geeksforgeeks.org/merge-sort/">Merge Sort-code</a></nav>
+            <nav><a href="https://pl.wikibooks.org/wiki/Kody_%C5%BAr%C3%B3d%C5%82owe/Sortowanie_przez_scalanie">Merge Sort-code2</a></nav>
+            <nav><a href="https://pl.wikipedia.org/wiki/Sortowanie_przez_wybieranie">Selection Sort</a></nav>
+            <nav><a href="https://www.tutorialspoint.com/data_structures_algorithms/selection_sort_algorithm.htm">Selection Sort-pseudocode</a></nav>
+            <nav><a href="https://www.geeksforgeeks.org/selection-sort/">Selection Sort-code</a></nav>
+            <nav><a href=""></a></nav>
+        </div>
+        
+    </div>
+    
+</body>
+</html>

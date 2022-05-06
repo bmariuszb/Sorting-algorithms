@@ -1,0 +1,94 @@
+html{
+    font-family: 'Helvetica', 'Arial', sans-serif;
+    background-color: hsl(0, 0%, 10%);
+    color: hsl(0, 0%, 60%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100%;
+}
+body{
+    min-height: 90vh;
+}
+svg{
+    position: absolute;
+    top: 10px;
+    left: 70vw;
+}
+pre{
+    background-color:hsl(0, 0%, 12%);
+}
+a{
+    color: hsl(350, 100%, 90%);
+}
+*::selection{
+    background-color: hsl(0, 0%, 30%);
+    color: hsl(0, 0%, 80%);;
+}
+h1{
+    text-align: center;
+}
+body > ol > li::marker{
+    font-size: 1.8rem;
+}
+li{
+    padding: 0.5rem;
+    font-size: 1rem;
+    width: max-content;
+    max-width: 80vw;
+}
+.sortType:hover{
+    color: greenyellow;
+}
+.sortType{
+    font-size: 1.8rem;
+    user-select: none;
+    text-decoration: underline;
+    display: inline;
+}
+#bubbleS, #insertionS, #heapS, #quickS, #mergeS, #selectionS{
+    display: none;
+}
+#bubble > *, #insertion > *, #heap > *, #quick > *, #merge > *, #selection > *{
+    position: absolute;
+    padding: 5px;
+    top: 70px;
+    font-size: 3rem;
+}
+#bubble, #insertion, #heap, #quick, #merge, #selection{
+    position: relative;
+    height: 140px;
+    width: 200px;
+}
+#bubble1, #insertion1, #heap1, #quick1, #merge1, #selection1{
+    left: 40px;
+}
+#bubble4, #insertion4, #heap4, #quick4, #merge4, #selection4{
+    left: 80px;
+}
+#bubble2, #insertion2, #heap2, #quick2, #merge2, #selection2{
+    left: 120px;
+}
+#bubble8, #insertion8, #heap8, #quick8, #merge8, #selection8{
+    left: 160px;
+}
+#startBubble, #startInsertion, #startHeap, #startQuick, #startMerge, #startSelection{
+    top: 0px;
+    font-size: 1rem;
+    height: 140px;
+    width: 200px;
+    background-color:hsla(0, 0%, 20%, 0.164);
+    padding: 0px;
+    text-align: center;
+}
+.sources{
+    font-size: 0.6rem;
+    position: relative;
+    left: 0;
+    bottom: -35vh;
+}
+.sources > div{
+    display: flex;
+    justify-content: space-around;
+    width: 80vw;
+}
