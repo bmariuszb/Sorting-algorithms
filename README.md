@@ -6,11 +6,17 @@ The website is hosted on Heroku and sometimes it may take a few seconds to open.
 
 ## Download and run
 If online version isn't working you can
-ownload git and run this commands in git bash
+download git and run these commands in git bash to open website localy.
 ```
 git clone git@github.com:bmariuszb/Sorting-algorithms.git
-cd Sorting-algorithmssta
+cd Sorting-algorithms
 start index.html
+```
+
+To delete downloaded repo simply run
+```
+cd ..
+rm -rf Sorting-algorithms/
 ```
 
 ## Overview
